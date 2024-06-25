@@ -6,7 +6,16 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint --fix --dir src"
+		"lint": "tsc && next lint --fix --dir src",
+		"format:staged": "prettier --write",
+		"prepare": "husky",
+		"precommit": "lint-staged"
+	},
+	"lint-staged": {
+		"*.{ts,tsx}": [
+			"npm run lint",
+			"npm run format:staged"
+		]
 	},
 	"dependencies": {
 		"next": "14.2.4",
@@ -23,6 +32,8 @@
 		"eslint-config-next": "14.2.4",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-import": "^2.29.1",
+		"husky": "^9.0.11",
+		"lint-staged": "^15.2.7",
 		"postcss": "^8",
 		"prettier": "^3.3.2",
 		"prettier-plugin-tailwindcss": "^0.6.5",
