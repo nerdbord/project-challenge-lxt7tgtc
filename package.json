@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "tsc && next lint --fix --dir src",
-		"format:staged": "prettier --write",
+		"format:staged": "prettier --write .",
 		"prepare": "husky",
 		"precommit": "lint-staged"
 	},
