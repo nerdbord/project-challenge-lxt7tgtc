@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@chakra-ui/react";
 
 export const Header = () => {
 	return (
@@ -13,9 +14,12 @@ export const Header = () => {
 				<ul className="flex justify-between">
 					<li className="ml-10 mr-10 text-xl uppercase">Hello, Jan Kowalski</li>
 					<li>
-						<button className="cursor-pointer rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+						<Button
+							colorScheme="blue"
+							className="cursor-pointer font-bold text-white hover:bg-blue-700"
+						>
 							Sign out
-						</button>
+						</Button>
 					</li>
 				</ul>
 			</nav>
