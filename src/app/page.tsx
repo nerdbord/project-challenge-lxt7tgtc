@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Button } from "../components/Button";
+import { Button, Box, Flex, Text, Link, Heading } from "@chakra-ui/react";
 import { supabase } from "../lib/supabaseClient";
 
 const Home: React.FC = () => {
@@ -25,25 +25,29 @@ const Home: React.FC = () => {
 	};
 
 	return (
-		<div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
-			<div className="mb-10 flex items-center font-roboto text-7xl">🔗 Link My Image 🔗</div>
-			<div className="w-full max-w-sm rounded bg-white p-8 shadow-md">
-				<h1 className="mb-6 text-center text-2xl font-bold">{isSignUp ? "Sign Up" : "Sign In"}</h1>
+		<Flex minH="100vh" direction="column" align="center" justify="center" bg="gray.100">
+			<Text mb="10" fontSize="7xl" fontFamily="Roboto">
+				🔗 Link My Image 🔗
+			</Text>
+			<Box w="full" maxW="sm" p="8" bg="white" rounded="md" shadow="md">
+				<Heading mb="6" textAlign="center" fontSize="2xl">
+					{isSignUp ? "Sign Up" : "Sign In"}
+				</Heading>
 
-				<Button onClick={handleAuth} className="w-full">
+				<Button onClick={handleAuth} w="full" colorScheme="teal">
 					{isSignUp ? "Sign up with Supabase" : "Sign In with Supabase"}
 				</Button>
-				<div className="mt-4 text-center">
-					<a
-						href="#"
+				<Flex mt="4" justify="center">
+					<Link
 						onClick={() => setIsSignUp(!isSignUp)}
-						className="text-blue-500 hover:underline"
+						color="blue.500"
+						_hover={{ textDecoration: "underline" }}
 					>
 						{isSignUp ? "Already have an account? Sign In" : "Don’t have an account? Sign Up"}
-					</a>
-				</div>
-			</div>
-		</div>
+					</Link>
+				</Flex>
+			</Box>
+		</Flex>
 	);
 };
 
