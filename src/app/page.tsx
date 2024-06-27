@@ -1,6 +1,12 @@
 import React from "react";
 import { Login } from "../components/Login";
+import { Header } from "../ui/header";
 
 export default function Home() {
-	return <Login />;
+	return (
+		<div>
+			<Header />
+			<Login />
+		</div>
+	);
 }
