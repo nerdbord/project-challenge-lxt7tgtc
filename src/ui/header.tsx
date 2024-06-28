@@ -34,7 +34,15 @@ export const Header = () => {
 							</Text>
 						</ListItem>
 						<ListItem>
-							<Button colorScheme="teal" size="lg" fontWeight="bold" color="white" cursor="pointer">
+							<Button
+								colorScheme="teal"
+								size="lg"
+								fontWeight="bold"
+								color="white"
+								cursor="pointer"
+								bg="#A51813"
+								_hover={{ bg: "#861110" }}
+							>
 								Sign out
 							</Button>
 						</ListItem>
