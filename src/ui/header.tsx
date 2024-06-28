@@ -1,28 +1,46 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@chakra-ui/react";
+import { Button, Image, Box, Flex, Text, List, ListItem, Link } from "@chakra-ui/react";
 
 export const Header = () => {
 	return (
-		<header className="fixed flex h-24 w-full bg-white shadow-xl">
-			<nav className="flex h-full w-full items-center justify-between px-4 2xl:px-16">
-				<div>
-					<Link href="/">
-						<Image src={"/logo.png"} alt="Logo" width={70} height={70} className="cursor-pointer" />
+		<Box
+			as="header"
+			pos="fixed"
+			w="100%"
+			h="110px"
+			boxShadow="xl"
+			bg="white"
+			px="32px"
+			display="flex"
+			alignItems="center"
+			justifyContent="center"
+		>
+			<nav style={{ width: "100%" }}>
+				<Flex alignItems="center" justifyContent="space-between" w="100%">
+					<Link href="/" display="flex" alignItems="center">
+						<Image borderRadius="full" boxSize="80px" src="/logo.png" alt="Logo" cursor="pointer" />
 					</Link>
-				</div>
-				<ul className="flex justify-between">
-					<li className="ml-10 mr-10 text-xl uppercase">Hello, Jan Kowalski</li>
-					<li>
-						<Button
-							colorScheme="blue"
-							className="cursor-pointer font-bold text-white hover:bg-blue-700"
-						>
-							Sign out
-						</Button>
-					</li>
-				</ul>
+					<List
+						styleType="none"
+						display="flex"
+						alignItems="center"
+						justifyContent="space-between"
+						gap="20px"
+						p="0"
+						m="0"
+					>
+						<ListItem>
+							<Text fontSize="20px" textTransform="uppercase">
+								Hello, Jan Kowalski
+							</Text>
+						</ListItem>
+						<ListItem>
+							<Button colorScheme="teal" size="lg" fontWeight="bold" color="white" cursor="pointer">
+								Sign out
+							</Button>
+						</ListItem>
+					</List>
+				</Flex>
 			</nav>
-		</header>
+		</Box>
 	);
 };
