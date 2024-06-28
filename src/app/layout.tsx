@@ -3,7 +3,11 @@ import { Inter } from "next/font/google";
 import { Providers } from "@/app/providers";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+	subsets: ["latin"],
+	variable: "--font-inter",
+	weight: "300",
+});
 
 export const metadata: Metadata = {
 	title: "🔗 Link My Image 🔗",
@@ -16,8 +20,8 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={inter.className}>
+		<html className={`${inter.variable}`}>
+			<body>
 				<Providers>{children}</Providers>
 			</body>
 		</html>
