@@ -1,5 +1,5 @@
 import React from "react";
-import { Login } from "../components/Login";
+import { Login } from "../ui/Login";
 import { Header } from "../ui/header";
 
 export default function Home() {
