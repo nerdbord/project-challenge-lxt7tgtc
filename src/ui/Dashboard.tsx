@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import { Button, Flex, Image, Heading, Input } from "@chakra-ui/react";
 import { supabase } from "../lib/supabaseClient";
 import { uploadImage, saveFileMetadata } from "../backend/hooks";
 
@@ -38,16 +38,29 @@ export const Dashboard: React.FC = () => {
 			}
 		};
 
-		void fetchImages(); // Użyj `void` aby oznaczyć jako świadomie nieawaitowaną obietnicę
+		void fetchImages();
 	}, []);
 
 	return (
-		<div>
-			<h1>Dashboard</h1>
-			<input type="file" onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)} />
-			<button onClick={handleFileUpload}>Upload</button>
+		<Flex minH="100vh" direction="column" align="left" justify="center" bg="gray.100">
+			<Input
+				type="file"
+				w="50%"
+				onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+			/>
+			<Button
+				onClick={handleFileUpload}
+				w="200px"
+				colorScheme="teal"
+				bg="#A51813"
+				_hover={{ bg: "#861110" }}
+			>
+				Upload
+			</Button>
 			<div>
-				<h2>Uploaded Images</h2>
+				<Heading mb="6" textAlign="center" fontSize="2xl">
+					Uploaded Images
+				</Heading>
 				<ul>
 					{images.map((image, index) => (
 						<li key={index}>
@@ -56,6 +69,6 @@ export const Dashboard: React.FC = () => {
 					))}
 				</ul>
 			</div>
-		</div>
+		</Flex>
 	);
 };
