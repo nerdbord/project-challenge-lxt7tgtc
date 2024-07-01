@@ -1,35 +1,18 @@
-"use client";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { supabase } from "../lib/supabaseClient";
+import { redirect } from "next/navigation";
 import { Login } from "../ui/Login";
+import { createClient } from "@/utils/supabase/server";
 
-const Home: React.FC = () => {
-	const router = useRouter();
+const Home: React.FC = async () => {
+	const supabase = createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
 
-	useEffect(() => {
-		if (typeof window !== "undefined") {
-			const checkUser = async () => {
-				try {
-					const {
-						data: { user },
-					} = await supabase.auth.getUser();
-					if (user) {
-						router.push("/dashboard");
-					}
-				} catch (error) {
-					console.error("Error checking user:", error);
-				}
-			};
-			void checkUser();
-		}
-	}, [router]);
+	if (user) {
+		redirect("/dashboard");
+	}
 
-	return (
-		<div>
-			<Login />
-		</div>
-	);
+	return <Login />;
 };
 
 export default Home;
