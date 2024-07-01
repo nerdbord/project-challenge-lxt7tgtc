@@ -1,74 +1,46 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Button, Flex, Image, Heading, Input } from "@chakra-ui/react";
-import { supabase } from "../lib/supabaseClient";
-import { uploadImage, saveFileMetadata } from "../backend/hooks";
+
+import { Flex, Heading, Input, Image } from "@chakra-ui/react";
+import { useState } from "react";
+import { uploadImage } from "@/app/actions/uploadImage";
 
 export const Dashboard: React.FC = () => {
-	const [file, setFile] = useState<File | null>(null);
-	const [images, setImages] = useState<string[]>([]);
+	const [image, setImage] = useState<string | null>(null);
 
-	const handleFileUpload = async () => {
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
-		if (user && file) {
-			const fileUrl = await uploadImage(user.id, file);
-			if (fileUrl) {
-				await saveFileMetadata(user.id, fileUrl);
-				setImages([...images, fileUrl]);
-			}
+	const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file: File | null = e.target.files?.[0] || null;
+
+		if (!file) {
+			return null;
+		}
+
+		const fileData = new FormData();
+		fileData.append("fileUpload", file);
+
+		const url = await uploadImage(fileData);
+		if (url) {
+			setImage(url);
 		}
 	};
-
-	useEffect(() => {
-		const fetchImages = async () => {
-			const {
-				data: { user },
-			} = await supabase.auth.getUser();
-			if (user) {
-				const { data: userFiles } = await supabase
-					.from("user_files")
-					.select("file_url")
-					.eq("user_id", user.id);
-
-				if (userFiles) {
-					setImages(userFiles.map((file: { file_url: string }) => file.file_url));
-				}
-			}
-		};
-
-		void fetchImages();
-	}, []);
 
 	return (
 		<Flex minH="100vh" direction="column" align="left" justify="center" bg="gray.100">
 			<Input
 				type="file"
+				name="fileUpload"
+				id="fileUpload"
 				w="50%"
-				onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+				accept="image/png, image/jpeg, image/jpg"
+				onChange={(e) => handleFileUpload(e)}
 			/>
-			<Button
-				onClick={handleFileUpload}
-				w="200px"
-				colorScheme="teal"
-				bg="#A51813"
-				_hover={{ bg: "#861110" }}
-			>
-				Upload
-			</Button>
-			<div>
-				<Heading mb="6" textAlign="center" fontSize="2xl">
-					Uploaded Images
-				</Heading>
-				<ul>
-					{images.map((image, index) => (
-						<li key={index}>
-							<Image src={image} alt={`Uploaded ${index}`} width={200} height={200} />
-						</li>
-					))}
-				</ul>
-			</div>
+			{image && (
+				<div>
+					<Heading mb="6" textAlign="center" fontSize="2xl">
+						Uploaded Image
+					</Heading>
+					<Image src={image} alt={`Uploaded image`} width={200} height={200} />
+				</div>
+			)}
 		</Flex>
 	);
 };
