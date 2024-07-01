@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { Header } from "@/ui/Header";
+import { Header } from "@/ui/header";
 import { Dashboard } from "@/ui/Dashboard";
 import { createClient } from "@/utils/supabase/server";
 
