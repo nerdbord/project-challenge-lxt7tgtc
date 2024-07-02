@@ -1,25 +1,62 @@
+"use client";
 import {
 	Input,
 	FormControl,
 	FormLabel,
 	Text,
-	Link,
 	Box,
 	Center,
 	Flex,
 	Image,
-	HStack,
-	Button,
+	VStack,
+	useToast,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { PreviewItem } from "./PreviewItem";
 
-export const UploadImage = () => {
+interface ImageData {
+	id: number;
+	src: string;
+}
+
+export const UploadImage: React.FC = () => {
 	// const accept="image/jpeg, image/jpg, image/png"
+	const initialImages: ImageData[] = [
+		{ id: 1, src: "/logo.png" },
+		{ id: 2, src: "/upload.jpg" },
+		{ id: 3, src: "/logo.png" },
+		{ id: 4, src: "/upload.jpg" },
+	];
+	const [images, setImages] = useState<ImageData[]>(initialImages);
+	const toast = useToast();
+
+	const handleCopy = (src: string) => {
+		navigator.clipboard
+			.writeText(window.location.origin + src)
+			.then(() => {
+				toast({
+					title: "Link copied!",
+					description: "The image link has been copied to clipboard.",
+					status: "success",
+					duration: 2000,
+					isClosable: true,
+				});
+			})
+			.catch((err) => {
+				console.error("Failed to copy: ", err);
+			});
+	};
+
+	const handleDelete = (id: number) => {
+		const filteredImages = images.filter((image) => image.id !== id);
+		setImages(filteredImages);
+	};
 	return (
 		<Center height="100vh">
 			<Flex width="full" justifyContent="center" alignItems="center" px={8}>
-				<HStack w="full" spacing={8} px={8} justifyContent="center">
+				<VStack w="full" spacing={8} px={8} justifyContent="center">
 					<Box
-						width={["90%", "70%", "50%", "40%"]}
+						width={["100%", "80%", "60%", "50%"]}
 						border="3px dashed"
 						borderColor="teal.500"
 						borderRadius="md"
@@ -58,96 +95,18 @@ export const UploadImage = () => {
 							</Text>
 						</Center>
 					</Box>
-					<Flex width="20%" alignItems="center" maxHeight="80vh">
-						<Flex
-							// key={index}
-							width="full"
-							padding="2"
-							backgroundColor="gray.50"
-							borderRadius="md"
-							boxShadow="md"
-							direction="column"
-							gap="2"
-						>
-							<HStack width="full" spacing={4} alignItems="center" justifyContent="space-around">
-								<Link isExternal>
-									<Image
-										alt=""
-										src="/logo.png"
-										boxSize="70px"
-										objectFit="cover"
-										border="black"
-										borderRadius="md"
-									/>
-								</Link>
-
-								<Button colorScheme="teal" size="sm">
-									Copy
-								</Button>
-								<Button bg="#ef4f4a" _hover={{ bg: "#861110" }} size="sm" color="white">
-									Delete
-								</Button>
-							</HStack>
-							<HStack width="full" spacing={4} alignItems="center" justifyContent="space-around">
-								<Link isExternal>
-									<Image
-										alt=""
-										src="/upload.jpg"
-										boxSize="70px"
-										objectFit="cover"
-										border="black"
-										borderRadius="md"
-									/>
-								</Link>
-
-								<Button colorScheme="teal" size="sm">
-									Copy
-								</Button>
-								<Button bg="#ef4f4a" _hover={{ bg: "#861110" }} size="sm" color="white">
-									Delete
-								</Button>
-							</HStack>
-							<HStack width="full" spacing={4} alignItems="center" justifyContent="space-around">
-								<Link isExternal>
-									<Image
-										alt=""
-										src="/logo.png"
-										boxSize="70px"
-										objectFit="cover"
-										border="black"
-										borderRadius="md"
-									/>
-								</Link>
-
-								<Button colorScheme="teal" size="sm">
-									Copy
-								</Button>
-								<Button bg="#ef4f4a" _hover={{ bg: "#861110" }} size="sm" color="white">
-									Delete
-								</Button>
-							</HStack>
-							<HStack width="full" spacing={4} alignItems="center" justifyContent="space-around">
-								<Link isExternal>
-									<Image
-										alt=""
-										src="/upload.jpg"
-										boxSize="70px"
-										objectFit="cover"
-										border="black"
-										borderRadius="md"
-									/>
-								</Link>
-
-								<Button colorScheme="teal" size="sm">
-									Copy
-								</Button>
-								<Button bg="#ef4f4a" _hover={{ bg: "#861110" }} size="sm" color="white">
-									Delete
-								</Button>
-							</HStack>
-						</Flex>
+					<Flex gap={4} width="70%" alignItems="center" flexWrap="wrap">
+						{images.map((image) => (
+							<PreviewItem
+								key={image.id}
+								id={image.id}
+								src={image.src}
+								onCopy={handleCopy}
+								onDelete={handleDelete}
+							/>
+						))}
 					</Flex>
-				</HStack>
+				</VStack>
 			</Flex>
 		</Center>
 	);
