@@ -4,7 +4,7 @@ export const Header = () => {
 	return (
 		<Box
 			as="header"
-			pos="fixed"
+			// pos="fixed"
 			w="100%"
 			h="110px"
 			boxShadow="xl"
@@ -13,6 +13,7 @@ export const Header = () => {
 			display="flex"
 			alignItems="center"
 			justifyContent="center"
+			mb="5%"
 		>
 			<nav style={{ width: "100%" }}>
 				<Flex alignItems="center" justifyContent="space-between" w="100%">
@@ -40,8 +41,8 @@ export const Header = () => {
 								fontWeight="bold"
 								color="white"
 								cursor="pointer"
-								bg="#A51813"
-								_hover={{ bg: "#861110" }}
+								// bg="#A51813"
+								// _hover={{ bg: "#861110" }}
 							>
 								Sign out
 							</Button>

@@ -7,12 +7,13 @@ import {
 	Box,
 	Center,
 	Flex,
-	Image,
 	VStack,
+	List,
 	useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { PreviewItem } from "./PreviewItem";
+import { Preview } from "./Preview";
+import { ImagesListFromDb } from "./ImagesListFromDb";
 
 interface ImageData {
 	id: number;
@@ -62,14 +63,10 @@ export const UploadImage: React.FC = () => {
 						borderRadius="md"
 						padding="6"
 						backgroundColor="gray.50"
+						height="300px"
 					>
 						<Center flexDirection="column">
-							<Image
-								boxSize="90px"
-								objectFit="cover"
-								src="/upload.jpg"
-								alt="Upload box decoration image"
-							/>
+							<Preview src={"/upload.jpg"} />
 							<FormControl mt={4}>
 								<FormLabel
 									htmlFor="browse"
@@ -79,7 +76,21 @@ export const UploadImage: React.FC = () => {
 									fontWeight="semibold"
 									textTransform="uppercase"
 								>
-									Click or Drag & drop your image here
+									<Box
+										as="button"
+										bgColor="teal.500"
+										color="black"
+										p="10px"
+										w="20%"
+										textAlign="center"
+										m="auto"
+										borderRadius="3px"
+										mr="10px"
+										_hover={{ bgColor: "teal.600" }}
+									>
+										Upload
+									</Box>
+									or Drag and drop your image here
 									<Input
 										type="file"
 										accept=".png, .jpg, .jpeg"
@@ -95,9 +106,9 @@ export const UploadImage: React.FC = () => {
 							</Text>
 						</Center>
 					</Box>
-					<Flex gap={4} width="70%" alignItems="center" flexWrap="wrap">
+					{/* <Flex gap={4} width="70%" alignItems="center" flexWrap="wrap">
 						{images.map((image) => (
-							<PreviewItem
+							<ImagesListFromDb
 								key={image.id}
 								id={image.id}
 								src={image.src}
@@ -105,7 +116,18 @@ export const UploadImage: React.FC = () => {
 								onDelete={handleDelete}
 							/>
 						))}
-					</Flex>
+					</Flex> */}
+					<List spacing={3} width="50%">
+						{images.map((image) => (
+							<ImagesListFromDb
+								key={image.id}
+								id={image.id}
+								src={image.src}
+								onCopy={handleCopy}
+								onDelete={handleDelete}
+							/>
+						))}
+					</List>
 				</VStack>
 			</Flex>
 		</Center>

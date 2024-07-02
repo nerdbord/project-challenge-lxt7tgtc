@@ -1,23 +1,32 @@
-import { Box, Flex, Link, Image, HStack, Button } from "@chakra-ui/react";
+import { List, ListItem, Link, Image, HStack, Button } from "@chakra-ui/react";
+// import { TrashIcon } from "@/assets/icons/TrashIcon";
+// import { CopyIcon } from "@/assets/icons/CopyIcon";
 
-interface PreviewItemProps {
+interface ImagesListFromDbProps {
 	id: number;
 	src: string;
 	onCopy: (src: string) => void;
 	onDelete: (id: number) => void;
 }
 
-export const PreviewItem: React.FC<PreviewItemProps> = ({ id, src, onCopy, onDelete }) => {
+export const ImagesListFromDb: React.FC<ImagesListFromDbProps> = ({
+	id,
+	src,
+	onCopy,
+	onDelete,
+}) => {
 	return (
-		<Box
-			key={id}
-			width="30%"
-			padding="2"
-			backgroundColor="gray.50"
-			borderRadius="md"
-			boxShadow="md"
-		>
-			<Flex alignItems="center" justifyContent="center">
+		<List spacing={4} width="100%">
+			<ListItem
+				key={id}
+				padding="4"
+				backgroundColor="gray.50"
+				borderRadius="md"
+				boxShadow="md"
+				display="flex"
+				alignItems="center"
+				justifyContent="center"
+			>
 				<Link isExternal>
 					<Image
 						alt=""
@@ -32,7 +41,6 @@ export const PreviewItem: React.FC<PreviewItemProps> = ({ id, src, onCopy, onDel
 					<Button colorScheme="teal" size="md" onClick={() => onCopy(src)}>
 						<Image alt="Copy icon" src="/copy-hyperlink-link-icon.svg" boxSize="24px" />
 					</Button>
-
 					<Button
 						bg="#ef4f4a"
 						_hover={{ bg: "#861110" }}
@@ -41,10 +49,11 @@ export const PreviewItem: React.FC<PreviewItemProps> = ({ id, src, onCopy, onDel
 						ml={2}
 						onClick={() => onDelete(id)}
 					>
+						{/* <TrashIcon /> */}
 						<Image alt="trash image" src="/trash.svg" boxSize="24px" />
 					</Button>
 				</HStack>
-			</Flex>
-		</Box>
+			</ListItem>
+		</List>
 	);
 };
