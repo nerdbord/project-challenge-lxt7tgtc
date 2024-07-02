@@ -1,5 +1,6 @@
 ﻿"use server";
 
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 
 export async function uploadImage(fileData: FormData) {
@@ -30,5 +31,6 @@ export async function uploadImage(fileData: FormData) {
 		return null;
 	}
 
+	revalidatePath("/dashboard", "page");
 	return publicData.publicUrl;
 }

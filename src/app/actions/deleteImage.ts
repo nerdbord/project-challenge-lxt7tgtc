@@ -1,8 +1,9 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 
-export async function deleteImage(fileData: FormData) {
+export async function deleteImage(fileName: string) {
 	const supabase = createClient();
 	const {
 		data: { user },
@@ -12,8 +13,6 @@ export async function deleteImage(fileData: FormData) {
 		throw new Error("User not found");
 	}
 
-	const fileName = fileData.get("fileDelete") as string;
-
 	const { error } = await supabase.storage.from("images").remove([`${user.id}/${fileName}`]);
 
 	if (error) {
@@ -21,5 +20,6 @@ export async function deleteImage(fileData: FormData) {
 		return null;
 	}
 
+	revalidatePath("/dashboard", "page");
 	return { success: true };
 }
