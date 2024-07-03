@@ -1,14 +1,20 @@
-import React from "react";
-// import { Login } from "../ui/Login";
-import { Header } from "../ui/Header";
-import { UploadImage } from "@/ui/UploadImage";
 
-export default function Home() {
-	return (
-		<div>
-			<Header />
-			{/* <Login /> */}
-			<UploadImage />
-		</div>
-	);
-}
+import { redirect } from "next/navigation";
+import { Login } from "../ui/Login";
+import { createClient } from "@/utils/supabase/server";
+
+const Home: React.FC = async () => {
+	const supabase = createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
+	if (user) {
+		redirect("/dashboard");
+	}
+
+	return <Login />;
+};
+
+export default Home;
+

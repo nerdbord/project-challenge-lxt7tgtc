@@ -1,6 +1,16 @@
-import { Button, Image, Box, Flex, Text, List, ListItem, Link } from "@chakra-ui/react";
+import { Image, Box, Flex, Text, List, ListItem, Link } from "@chakra-ui/react";
+import { createClient } from "@/utils/supabase/server";
+import { LogOutButton } from "@/ui/LogOutButton";
 
-export const Header = () => {
+export const Header = async () => {
+	const supabase = createClient();
+
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
+	console.log("user", user);
+
 	return (
 		<Box
 			as="header"
@@ -31,21 +41,13 @@ export const Header = () => {
 					>
 						<ListItem>
 							<Text fontSize="20px" textTransform="uppercase">
-								Hello, Jan Kowalski
+								Hello, {user?.email || "Guest"}
 							</Text>
 						</ListItem>
 						<ListItem>
-							<Button
-								colorScheme="teal"
-								size="lg"
-								fontWeight="bold"
-								color="white"
-								cursor="pointer"
-								// bg="#A51813"
-								// _hover={{ bg: "#861110" }}
-							>
-								Sign out
-							</Button>
+
+							<LogOutButton />
+
 						</ListItem>
 					</List>
 				</Flex>

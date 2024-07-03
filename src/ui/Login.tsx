@@ -1,28 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { Button, Box, Flex, Image, Link, Heading } from "@chakra-ui/react";
-import { supabase } from "../lib/supabaseClient";
+import { Button, Flex, Image, Link, Heading, Input, FormControl } from "@chakra-ui/react";
+import { signIn } from "@/app/actions/signIn";
+import { signUp } from "@/app/actions/signUp";
 
 export const Login: React.FC = () => {
 	const [isSignUp, setIsSignUp] = useState(true);
-
-	const handleAuth = async () => {
-		if (isSignUp) {
-			const { data, error } = await supabase.auth.signUp({
-				email: "example@example.com",
-				password: "example-password",
-			});
-			if (error) console.log("Error signing up:", error.message);
-			else console.log("User signed up:", data.user);
-		} else {
-			const { data, error } = await supabase.auth.signInWithPassword({
-				email: "example@example.com",
-				password: "example-password",
-			});
-			if (error) console.log("Error signing in:", error.message);
-			else console.log("User signed in:", data.user);
-		}
-	};
 
 	return (
 		<Flex minH="100vh" direction="column" align="center" justify="center" bg="gray.100">
@@ -34,13 +17,15 @@ export const Login: React.FC = () => {
 				cursor="pointer"
 				mb="14"
 			/>
-			<Box w="full" maxW="sm" p="8" bg="white" rounded="md" shadow="md">
+			<FormControl w="full" maxW="sm" p="8" bg="white" rounded="md" shadow="md" as="form">
 				<Heading mb="6" textAlign="center" fontSize="2xl">
 					{isSignUp ? "Sign Up" : "Sign In"}
 				</Heading>
-
+				<Input placeholder="Email" mb="4" name="email" id="email" type="email" />
+				<Input placeholder="Password" type="password" name="password" id="password" mb="6" />
 				<Button
-					onClick={handleAuth}
+					type="submit"
+					formAction={isSignUp ? signUp : signIn}
 					w="full"
 					colorScheme="teal"
 					bg="#A51813"
@@ -57,7 +42,7 @@ export const Login: React.FC = () => {
 						{isSignUp ? "Already have an account? Sign In" : "Don’t have an account? Sign Up"}
 					</Link>
 				</Flex>
-			</Box>
+			</FormControl>
 		</Flex>
 	);
 };
