@@ -9,7 +9,6 @@ export async function signInWithMagicLink(email: string) {
 		const { error: userError } = await supabase.auth.signInWithOtp({
 			email,
 			options: {
-				shouldCreateUser: true,
 				emailRedirectTo: "/dashboard",
 			},
 		});
@@ -18,8 +17,7 @@ export async function signInWithMagicLink(email: string) {
 			throw new Error(`Error sending magic link: ${userError.message}`);
 		}
 
-		revalidatePath("/dashboard", "page");
-
+		revalidatePath("/", "layout");
 		return { success: true, message: "User signed in" };
 	} catch (error) {
 		console.error("Error in signInWithEmail:", error);

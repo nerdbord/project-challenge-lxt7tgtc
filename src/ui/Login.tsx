@@ -1,11 +1,35 @@
 "use client";
-import React, { useState } from "react";
-import { Button, Flex, Image, Link, Heading, Input, FormControl } from "@chakra-ui/react";
-import { signIn } from "@/app/actions/signIn";
-import { signUp } from "@/app/actions/signUp";
+
+import { useState } from "react";
+import {
+	Button,
+	Flex,
+	Image,
+	Heading,
+	Input,
+	FormControl,
+	FormErrorMessage,
+	Divider,
+} from "@chakra-ui/react";
+import { signInWithMagicLink } from "@/app/actions/signInWithMagicLink";
 
 export const Login: React.FC = () => {
-	const [isSignUp, setIsSignUp] = useState(true);
+	const [email, setEmail] = useState("");
+	const [isError, setIsError] = useState(false);
+
+	const handleSendMagicLink = async () => {
+		if (!isError) {
+			await signInWithMagicLink(email);
+		}
+	};
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { value } = e.target;
+		const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+		setIsError(!isValidEmail);
+		setEmail(value);
+	};
 
 	return (
 		<Flex minH="100vh" direction="column" align="center" justify="center" bg="gray.100">
@@ -17,30 +41,45 @@ export const Login: React.FC = () => {
 				cursor="pointer"
 				mb="14"
 			/>
-			<FormControl w="full" maxW="sm" p="8" bg="white" rounded="md" shadow="md" as="form">
+			<FormControl
+				w="full"
+				maxW="sm"
+				p="8"
+				bg="white"
+				rounded="md"
+				shadow="md"
+				as="form"
+				isInvalid={isError}
+			>
 				<Heading mb="6" textAlign="center" fontSize="2xl">
-					{isSignUp ? "Sign Up" : "Sign In"}
+					Sign In With Magic Link
 				</Heading>
-				<Input placeholder="Email" mb="4" name="email" id="email" type="email" />
-				<Input placeholder="Password" type="password" name="password" id="password" mb="6" />
+				<Input
+					placeholder="Email"
+					mb="4"
+					name="email"
+					id="email"
+					value={email}
+					onChange={handleChange}
+					type="email"
+					required
+				/>
+				{isError && <FormErrorMessage>Please enter a valid email address</FormErrorMessage>}
 				<Button
-					type="submit"
-					formAction={isSignUp ? signUp : signIn}
+					onClick={handleSendMagicLink}
 					w="full"
 					colorScheme="teal"
 					bg="#A51813"
 					_hover={{ bg: "#861110" }}
+					isDisabled={email === "" ? true : false}
 				>
-					{isSignUp ? "Sign up with Supabase" : "Sign In with Supabase"}
+					Get Magic Link
 				</Button>
-				<Flex mt="4" justify="center">
-					<Link
-						onClick={() => setIsSignUp(!isSignUp)}
-						color="black.500"
-						_hover={{ textDecoration: "underline" }}
-					>
-						{isSignUp ? "Already have an account? Sign In" : "Don’t have an account? Sign Up"}
-					</Link>
+				<Divider my={4} borderColor="black" />
+				<Flex justify="center">
+					<Button bg="black" color="white" _hover={{ backgroundColor: "#333" }}>
+						Sign In With Github
+					</Button>
 				</Flex>
 			</FormControl>
 		</Flex>
