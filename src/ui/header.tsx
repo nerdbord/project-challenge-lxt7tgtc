@@ -45,9 +45,7 @@ export const Header = async () => {
 							</Text>
 						</ListItem>
 						<ListItem>
-
 							<LogOutButton />
-
 						</ListItem>
 					</List>
 				</Flex>

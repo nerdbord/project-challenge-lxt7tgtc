@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { Header } from "@/ui/header";
-import { Dashboard } from "@/ui/Dashboard";
 import { createClient } from "@/utils/supabase/server";
+import { UploadImage } from "@/ui/UploadImage";
 
 const DashboardPage: React.FC = async () => {
 	const supabase = createClient();
@@ -16,7 +16,7 @@ const DashboardPage: React.FC = async () => {
 	return (
 		<>
 			<Header />
-			<Dashboard />;
+			<UploadImage />;
 		</>
 	);
 };

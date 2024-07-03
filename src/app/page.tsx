@@ -1,4 +1,3 @@
-
 import { redirect } from "next/navigation";
 import { Login } from "../ui/Login";
 import { createClient } from "@/utils/supabase/server";
@@ -17,4 +16,3 @@ const Home: React.FC = async () => {
 };
 
 export default Home;
-
