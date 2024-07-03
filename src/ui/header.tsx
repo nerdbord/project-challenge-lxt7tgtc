@@ -14,7 +14,7 @@ export const Header = async () => {
 	return (
 		<Box
 			as="header"
-			pos="fixed"
+			// pos="fixed"
 			w="100%"
 			h="110px"
 			boxShadow="xl"
@@ -23,6 +23,7 @@ export const Header = async () => {
 			display="flex"
 			alignItems="center"
 			justifyContent="center"
+			mb="5%"
 		>
 			<nav style={{ width: "100%" }}>
 				<Flex alignItems="center" justifyContent="space-between" w="100%">
@@ -44,7 +45,9 @@ export const Header = async () => {
 							</Text>
 						</ListItem>
 						<ListItem>
+
 							<LogOutButton />
+
 						</ListItem>
 					</List>
 				</Flex>
