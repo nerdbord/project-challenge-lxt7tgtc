@@ -1,57 +1,10 @@
-"use client";
-import {
-	Input,
-	FormControl,
-	FormLabel,
-	Text,
-	Box,
-	Center,
-	Flex,
-	VStack,
-	List,
-	useToast,
-} from "@chakra-ui/react";
-import { useState } from "react";
+import { Input, FormControl, FormLabel, Text, Box, Center, Flex, VStack } from "@chakra-ui/react";
 import { Preview } from "./Preview";
-import { ImagesListFromDb } from "./ImagesListFromDb";
-
-interface ImageData {
-	id: number;
-	src: string;
-}
+import { ImagesList } from "./ImagesList";
 
 export const UploadImage: React.FC = () => {
-	// const accept="image/jpeg, image/jpg, image/png"
-	const initialImages: ImageData[] = [
-		{ id: 1, src: "/logo.png" },
-		{ id: 2, src: "/upload.jpg" },
-		{ id: 3, src: "/logo.png" },
-		{ id: 4, src: "/upload.jpg" },
-	];
-	const [images, setImages] = useState<ImageData[]>(initialImages);
-	const toast = useToast();
+	const accept = "image/jpeg, image/jpg, image/png";
 
-	const handleCopy = (src: string) => {
-		navigator.clipboard
-			.writeText(window.location.origin + src)
-			.then(() => {
-				toast({
-					title: "Link copied!",
-					description: "The image link has been copied to clipboard.",
-					status: "success",
-					duration: 2000,
-					isClosable: true,
-				});
-			})
-			.catch((err) => {
-				console.error("Failed to copy: ", err);
-			});
-	};
-
-	const handleDelete = (id: number) => {
-		const filteredImages = images.filter((image) => image.id !== id);
-		setImages(filteredImages);
-	};
 	return (
 		<Center height="100vh">
 			<Flex width="full" justifyContent="center" alignItems="center" px={8}>
@@ -93,7 +46,7 @@ export const UploadImage: React.FC = () => {
 									or Drag and drop your image here
 									<Input
 										type="file"
-										accept=".png, .jpg, .jpeg"
+										accept={accept}
 										id="browse"
 										name="file"
 										hidden
@@ -106,28 +59,7 @@ export const UploadImage: React.FC = () => {
 							</Text>
 						</Center>
 					</Box>
-					{/* <Flex gap={4} width="70%" alignItems="center" flexWrap="wrap">
-						{images.map((image) => (
-							<ImagesListFromDb
-								key={image.id}
-								id={image.id}
-								src={image.src}
-								onCopy={handleCopy}
-								onDelete={handleDelete}
-							/>
-						))}
-					</Flex> */}
-					<List spacing={3} width="50%">
-						{images.map((image) => (
-							<ImagesListFromDb
-								key={image.id}
-								id={image.id}
-								src={image.src}
-								onCopy={handleCopy}
-								onDelete={handleDelete}
-							/>
-						))}
-					</List>
+					<ImagesList />
 				</VStack>
 			</Flex>
 		</Center>
