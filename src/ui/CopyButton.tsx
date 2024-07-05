@@ -1,4 +1,5 @@
-﻿import { IconButton, useToast } from "@chakra-ui/react";
+﻿"use client";
+import { IconButton, useToast } from "@chakra-ui/react";
 import { CopyIcon } from "@/assets/icons/CopyIcon";
 
 export const CopyButton = ({ toCopy }: { toCopy: string }) => {
