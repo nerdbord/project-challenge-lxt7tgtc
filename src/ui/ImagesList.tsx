@@ -1,4 +1,3 @@
-"use client";
 import { List } from "@chakra-ui/react";
 import { ImageListItem } from "./ImageListItem";
 import { type ImageData } from "@/app/actions/getUserImages";
