@@ -1,6 +1,6 @@
 import { Input, FormControl, FormLabel, Text, Box, Center, Flex, VStack } from "@chakra-ui/react";
 import { Preview } from "./Preview";
-import { ImagesList } from "./ImagesList";
+// import { ImagesList } from "./ImagesList";
 
 export const UploadImage: React.FC = () => {
 	const accept = "image/jpeg, image/jpg, image/png";
@@ -59,7 +59,7 @@ export const UploadImage: React.FC = () => {
 							</Text>
 						</Center>
 					</Box>
-					<ImagesList />
+					{/* <ImagesList /> */}
 				</VStack>
 			</Flex>
 		</Center>

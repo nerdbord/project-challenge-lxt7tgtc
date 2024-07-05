@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-type Image = {
+export type ImageData = {
 	name: string;
 	url: string;
 };
@@ -23,7 +23,7 @@ export const getUserImages = async () => {
 		.list(`${user.id}/`, { limit: 100, offset: 0 });
 
 	if (userFiles) {
-		const images: Image[] = userFiles.map((file) => ({
+		const images: ImageData[] = userFiles.map((file) => ({
 			name: file.name,
 			url: `${process.env.NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/images/${user.id}/${file.name}`,
 		}));
