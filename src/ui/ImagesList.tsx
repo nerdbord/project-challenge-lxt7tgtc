@@ -10,6 +10,7 @@ export const ImagesList = ({ images }: { images: ImageData[] }) => {
 	const [selectedImages, setSelectedImages] = useState<ImageData[]>([]);
 	const [isDeleting, setIsDeleting] = useState(false);
 	const toast = useToast();
+	const isAllSelected = selectedImages.length === images.length;
 
 	const handleSelectImage = (name: string) => {
 		setSelectedImages((prevSelectedImages) => {
@@ -45,6 +46,14 @@ export const ImagesList = ({ images }: { images: ImageData[] }) => {
 		}
 	};
 
+	const handleSelectAll = () => {
+		if (isAllSelected) {
+			setSelectedImages([]);
+		} else {
+			setSelectedImages(images);
+		}
+	};
+
 	return (
 		<VStack className="w-full max-w-3xl" spacing={8}>
 			<Flex className="w-full items-center justify-between">
@@ -55,14 +64,19 @@ export const ImagesList = ({ images }: { images: ImageData[] }) => {
 						className="rounded-full bg-gray-400 px-3 py-1 text-lg text-gray-200"
 					>{`${selectedImages.length}/${images.length}`}</Text>
 				</Text>
-				<Button
-					onClick={handleDeleteAll}
-					colorScheme="green"
-					isDisabled={selectedImages.length === 0}
-					isLoading={isDeleting}
-				>
-					Delete All Selected
-				</Button>
+				<Flex className="gap-4">
+					<Button colorScheme="teal" onClick={() => handleSelectAll()}>
+						{isAllSelected ? "Deselect All" : "Select All"}
+					</Button>
+					<Button
+						onClick={handleDeleteAll}
+						colorScheme="green"
+						isDisabled={selectedImages.length === 0}
+						isLoading={isDeleting}
+					>
+						Delete All Selected
+					</Button>
+				</Flex>
 			</Flex>
 
 			<List spacing={4} className="w-full">
