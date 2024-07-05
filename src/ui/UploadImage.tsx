@@ -12,17 +12,19 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import PreviewImage from "../../public/upload.jpg";
 import { Preview } from "./Preview";
 import { uploadImage } from "@/app/actions/uploadImage";
 
 export const UploadImage: React.FC = () => {
 	const [file, setFile] = useState<File | null>(null);
 	const [isDragActive, setIsDragActive] = useState(false);
-	const [previewSrc, setPreviewSrc] = useState("/upload.jpg");
+	const [previewSrc, setPreviewSrc] = useState(PreviewImage.src);
 	const [isUploading, setIsUploading] = useState(false);
 	const toast = useToast();
 
 	const accept = "image/jpeg, image/jpg, image/png";
+	console.log(PreviewImage.src);
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file: File | null = event.target.files?.[0] || null;
@@ -64,6 +66,7 @@ export const UploadImage: React.FC = () => {
 			fileData.append("fileUpload", file);
 
 			await uploadImage(fileData);
+			setPreviewSrc(PreviewImage.src);
 			toast({
 				title: "Success!",
 				description: "Image uploaded successfully.",
@@ -101,7 +104,6 @@ export const UploadImage: React.FC = () => {
 				onDragLeave={(e) => handleDragLeave(e)}
 			>
 				<Center flexDirection="row-reverse" gap="2">
-					{/* <Preview src={"/upload.jpg"} /> */}
 					<FormControl
 						mt={6}
 						display="flex"
@@ -122,7 +124,6 @@ export const UploadImage: React.FC = () => {
 						</Text>
 						<Stack spacing={6} direction="row" align="center" mb="24px">
 							<FormLabel
-								// as="button"
 								htmlFor="choose-file"
 								py="10px"
 								lineHeight="1.2"
