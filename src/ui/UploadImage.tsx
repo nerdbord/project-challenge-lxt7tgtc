@@ -160,7 +160,7 @@ export const UploadImage: React.FC = () => {
 								colorScheme="red"
 								size="md"
 								isDisabled={!file || isUploading}
-								onClick={handleUpload}
+								onClick={() => handleUpload()}
 							>
 								{isUploading ? "Uploading..." : "Upload"}
 							</Button>

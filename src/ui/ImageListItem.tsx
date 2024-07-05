@@ -1,15 +1,9 @@
-import { ListItem, Link, Image, HStack, IconButton } from "@chakra-ui/react";
-import { CopyIcon } from "@/assets/icons/CopyIcon";
-import { TrashIcon } from "@/assets/icons/TrashIcon";
+import { ListItem, HStack, Image, Box } from "@chakra-ui/react";
+import { DeleteButton } from "@/ui/DeleteButton";
+import { type ImageData } from "@/app/actions/getUserImages";
+import { CopyButton } from "@/ui/CopyButton";
 
-interface ImageListItemProps {
-	id: number;
-	src: string;
-	onCopy: (src: string) => void;
-	onDelete: (id: number) => void;
-}
-
-export const ImageListItem: React.FC<ImageListItemProps> = ({ id, src, onCopy, onDelete }) => {
+export const ImageListItem: React.FC<ImageData> = ({ name, url }) => {
 	return (
 		<ListItem
 			padding="4"
@@ -18,31 +12,22 @@ export const ImageListItem: React.FC<ImageListItemProps> = ({ id, src, onCopy, o
 			boxShadow="md"
 			display="flex"
 			alignItems="center"
-			justifyContent="center"
+			justifyContent="space-around"
 		>
-			<Link isExternal>
-				<Image alt="" src={src} boxSize="80px" objectFit="cover" border="black" borderRadius="md" />
-			</Link>
-			<HStack spacing={2} ml={4}>
-				<IconButton
-					aria-label="Copy icon"
-					colorScheme="teal"
-					size="md"
-					padding="12px"
-					onClick={() => onCopy(src)}
-					icon={<CopyIcon />}
-					// boxSize="24px"
+			<Box>
+				<Image
+					alt="Image preview"
+					src={url}
+					boxSize="100px"
+					objectFit="cover"
+					border="black"
+					borderRadius="md"
+					bg="white"
 				/>
-				<IconButton
-					aria-label="Delete icon"
-					ml={2}
-					onClick={() => onDelete(id)}
-					size="md"
-					padding="12px"
-					icon={<TrashIcon />}
-					bg="#ef4f4a"
-					_hover={{ bg: "#861110" }}
-				/>
+			</Box>
+			<HStack spacing={2}>
+				<CopyButton toCopy={url} />
+				<DeleteButton name={name} />
 			</HStack>
 		</ListItem>
 	);
