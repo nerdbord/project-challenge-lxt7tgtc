@@ -9,25 +9,25 @@ import {
 	Flex,
 	Button,
 	Stack,
+	useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Preview } from "./Preview";
-// import { uploadImage } from "@/app/actions/uploadImage";
+import { uploadImage } from "@/app/actions/uploadImage";
 
 export const UploadImage: React.FC = () => {
 	const [file, setFile] = useState<File | null>(null);
 	const [isDragActive, setIsDragActive] = useState(false);
 	const [previewSrc, setPreviewSrc] = useState("/upload.jpg");
-	// const [isUploading, setIsUploading] = useState(false);
+	const [isUploading, setIsUploading] = useState(false);
+	const toast = useToast();
 
 	const accept = "image/jpeg, image/jpg, image/png";
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file: File | null = event.target.files?.[0] || null;
-		if (!file) {
-			return null;
-		}
-		if (file) {
+
+		if (file && file.type.startsWith("image/")) {
 			setFile(file);
 			setPreviewSrc(URL.createObjectURL(file));
 		}
@@ -37,10 +37,8 @@ export const UploadImage: React.FC = () => {
 		event.preventDefault();
 		event.stopPropagation();
 		const file: File | null = event.dataTransfer.files?.[0] || null;
-		if (!file) {
-			return null;
-		}
-		if (file) {
+
+		if (file && file.type.startsWith("image/")) {
 			setFile(file);
 			setPreviewSrc(URL.createObjectURL(file));
 		}
@@ -58,20 +56,37 @@ export const UploadImage: React.FC = () => {
 		setIsDragActive(false);
 	};
 
-	// const handleUpload = async () => {
-	// 	if (!file) return;
-	// 	setIsUploading(true);
-	// 	const fileData = new FormData();
-	// 	fileData.append("fileUpload", file);
+	const handleUpload = async () => {
+		if (!file) return;
+		try {
+			setIsUploading(true);
+			const fileData = new FormData();
+			fileData.append("fileUpload", file);
 
-	// 	const url = await uploadImage(fileData);
-	// 	if (url) {
-	// 		setFile(url);
-	// 	}
-	// };
+			await uploadImage(fileData);
+			toast({
+				title: "Success!",
+				description: "Image uploaded successfully.",
+				status: "success",
+				duration: 5000,
+				isClosable: true,
+			});
+		} catch (error) {
+			console.error(error);
+			toast({
+				title: "Error",
+				description: "Failed to upload image.",
+				status: "error",
+				duration: 5000,
+				isClosable: true,
+			});
+		} finally {
+			setIsUploading(false);
+		}
+	};
 
 	return (
-		<Flex width="full" justifyContent="center" alignItems="center" px={2}>
+		<Flex maxW="1000px" justifyContent="center" alignItems="center" px={2} margin="0 auto" gap="4">
 			<Box
 				pt="30px"
 				width={["60%", "50%"]}
@@ -144,11 +159,10 @@ export const UploadImage: React.FC = () => {
 							<Button
 								colorScheme="red"
 								size="md"
-								isDisabled={!file}
-								// isDisabled={!file || isUploading}
-								// onClick={() => handleUpload}
+								isDisabled={!file || isUploading}
+								onClick={handleUpload}
 							>
-								{/* {isUploading ? "Uploading..." : "Upload"} */}
+								{isUploading ? "Uploading..." : "Upload"}
 							</Button>
 						</Stack>
 						<Text as="sub" mt={4} color="gray.700" fontSize="8px">
