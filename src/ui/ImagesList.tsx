@@ -1,53 +1,12 @@
-"use client";
-import { List, useToast } from "@chakra-ui/react";
-import { useState } from "react";
+import { List } from "@chakra-ui/react";
 import { ImageListItem } from "./ImageListItem";
+import { type ImageData } from "@/app/actions/getUserImages";
 
-interface ImageData {
-	id: number;
-	src: string;
-}
-export const ImagesList: React.FC = () => {
-	const initialImages: ImageData[] = [
-		{ id: 1, src: "/logo.png" },
-		{ id: 2, src: "/upload.jpg" },
-		{ id: 3, src: "/logo.png" },
-		{ id: 4, src: "/upload.jpg" },
-	];
-	const [images, setImages] = useState<ImageData[]>(initialImages);
-	const toast = useToast();
-
-	const handleCopy = (src: string) => {
-		navigator.clipboard
-			.writeText(window.location.origin + src)
-			.then(() => {
-				toast({
-					title: "Link copied!",
-					description: "The image link has been copied to clipboard.",
-					status: "success",
-					duration: 2000,
-					isClosable: true,
-				});
-			})
-			.catch((err) => {
-				console.error("Failed to copy: ", err);
-			});
-	};
-
-	const handleDelete = (id: number) => {
-		const filteredImages = images.filter((image) => image.id !== id);
-		setImages(filteredImages);
-	};
+export const ImagesList = ({ images }: { images: ImageData[] }) => {
 	return (
-		<List spacing={4} width="100%">
+		<List spacing={4} width="100%" maxWidth={800}>
 			{images.map((image) => (
-				<ImageListItem
-					key={image.id}
-					id={image.id}
-					src={image.src}
-					onCopy={handleCopy}
-					onDelete={handleDelete}
-				/>
+				<ImageListItem key={image.name} name={image.name} url={image.url} />
 			))}
 		</List>
 	);
