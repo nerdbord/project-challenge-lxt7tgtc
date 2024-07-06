@@ -2,7 +2,7 @@
 
 import { Flex, Heading, Input, Image } from "@chakra-ui/react";
 import { useState } from "react";
-import { uploadImage } from "@/app/actions/uploadImage";
+import { uploadImage } from "@/api/actions";
 
 export const Dashboard: React.FC = () => {
 	const [image, setImage] = useState<string | null>(null);

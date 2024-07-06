@@ -1,6 +1,6 @@
 import { ListItem, HStack, Image, Box, Button } from "@chakra-ui/react";
 import { DeleteButton } from "@/ui/DeleteButton";
-import { type ImageData } from "@/app/actions/getUserImages";
+import { type ImageData } from "@/app/types";
 import { CopyButton } from "@/ui/CopyButton";
 
 type ImageListItemProps = ImageData & {

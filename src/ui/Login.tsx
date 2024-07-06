@@ -9,17 +9,28 @@ import {
 	Input,
 	FormControl,
 	FormErrorMessage,
-	Divider,
+	useToast,
 } from "@chakra-ui/react";
-import { signInWithMagicLink } from "@/app/actions/signInWithMagicLink";
+import { signInWithMagicLink } from "@/api/actions";
 
 export const Login: React.FC = () => {
 	const [email, setEmail] = useState("");
 	const [isError, setIsError] = useState(false);
+	const [isSending, setIsSending] = useState(false);
+	const toast = useToast();
 
 	const handleSendMagicLink = async () => {
+		setIsSending(true);
 		if (!isError) {
 			await signInWithMagicLink(email);
+			toast({
+				title: "Magic Link Sent",
+				description: `We've sent a magic link to ${email}. Check your inbox!`,
+				status: "success",
+				duration: 2000,
+				isClosable: true,
+				position: "top",
+			});
 		}
 	};
 
@@ -72,15 +83,17 @@ export const Login: React.FC = () => {
 					bg="#A51813"
 					_hover={{ bg: "#861110" }}
 					isDisabled={email === "" ? true : false}
+					isLoading={isSending}
 				>
 					Get Magic Link
 				</Button>
-				<Divider my={4} borderColor="black" />
+				{/* TODO: implement Github signing in */}
+				{/* <Divider my={4} borderColor="black" />
 				<Flex justify="center">
 					<Button bg="black" color="white" _hover={{ backgroundColor: "#333" }}>
 						Sign In With Github
 					</Button>
-				</Flex>
+				</Flex> */}
 			</FormControl>
 		</Flex>
 	);

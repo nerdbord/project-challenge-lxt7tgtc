@@ -14,7 +14,9 @@ import {
 import { useState, useRef } from "react";
 import PreviewImage from "../../public/upload.jpg";
 import { Preview } from "./Preview";
-import { uploadImage } from "@/app/actions/uploadImage";
+import { uploadImage } from "@/api/actions";
+
+const accept = "image/jpeg, image/jpg, image/png";
 
 export const UploadImage: React.FC = () => {
 	const [file, setFile] = useState<File | null>(null);
@@ -23,8 +25,6 @@ export const UploadImage: React.FC = () => {
 	const [isUploading, setIsUploading] = useState(false);
 	const toast = useToast();
 	const inputFileRef = useRef<HTMLInputElement | null>(null);
-
-	const accept = "image/jpeg, image/jpg, image/png";
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file: File | null = event.target.files?.[0] || null;
@@ -46,6 +46,7 @@ export const UploadImage: React.FC = () => {
 		}
 		setIsDragActive(false);
 	};
+
 	const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -83,7 +84,7 @@ export const UploadImage: React.FC = () => {
 			console.error(error);
 			toast({
 				title: "Error",
-				description: "Failed to upload image.",
+				description: String(error),
 				status: "error",
 				duration: 5000,
 				isClosable: true,

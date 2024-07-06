@@ -1,11 +1,7 @@
 ﻿"use server";
 
 import { createClient } from "@/utils/supabase/server";
-
-export type ImageData = {
-	name: string;
-	url: string;
-};
+import { type ImageData } from "@/app/types";
 
 export const getUserImages = async () => {
 	const supabase = createClient();

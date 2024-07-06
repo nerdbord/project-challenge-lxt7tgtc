@@ -3,8 +3,8 @@
 import { List, Text, VStack, Button, Flex, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { ImageListItem } from "./ImageListItem";
-import { type ImageData } from "@/app/actions/getUserImages";
-import { deleteImage } from "@/app/actions/deleteImage";
+import { type ImageData } from "@/app/types";
+import { deleteImage } from "@/api/actions";
 
 export const ImagesList = ({ images }: { images: ImageData[] }) => {
 	const [selectedImages, setSelectedImages] = useState<ImageData[]>([]);
