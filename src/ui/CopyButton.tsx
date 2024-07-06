@@ -1,5 +1,5 @@
 ﻿"use client";
-import { IconButton, useToast } from "@chakra-ui/react";
+import { IconButton, Tooltip, useToast } from "@chakra-ui/react";
 import { CopyIcon } from "@/assets/icons/CopyIcon";
 
 export const CopyButton = ({ toCopy }: { toCopy: string }) => {
@@ -22,13 +22,15 @@ export const CopyButton = ({ toCopy }: { toCopy: string }) => {
 			});
 	};
 	return (
-		<IconButton
-			aria-label="Copy icon"
-			colorScheme="teal"
-			size="md"
-			padding="12px"
-			onClick={() => handleCopy(toCopy)}
-			icon={<CopyIcon />}
-		/>
+		<Tooltip hasArrow label="Copy your image URL and share with the world!" placement="top">
+			<IconButton
+				aria-label="Copy icon"
+				colorScheme="teal"
+				size="md"
+				padding="12px"
+				onClick={() => handleCopy(toCopy)}
+				icon={<CopyIcon />}
+			/>
+		</Tooltip>
 	);
 };

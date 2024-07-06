@@ -18,8 +18,7 @@ export async function uploadImage(fileData: FormData) {
 	const { error } = await supabase.storage.from("images").upload(`${user.id}/${file.name}`, file);
 
 	if (error) {
-		console.error("Error uploading file:", error);
-		return null;
+		throw new Error(error.message);
 	}
 
 	const { data: publicData } = supabase.storage
@@ -27,8 +26,7 @@ export async function uploadImage(fileData: FormData) {
 		.getPublicUrl(`${user.id}/${file.name}`);
 
 	if (!publicData) {
-		console.error("Error getting public URL:");
-		return null;
+		throw new Error("Failed to get public URL");
 	}
 
 	revalidatePath("/dashboard", "page");

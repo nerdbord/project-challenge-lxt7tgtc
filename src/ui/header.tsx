@@ -9,12 +9,10 @@ export const Header = async () => {
 		data: { user },
 	} = await supabase.auth.getUser();
 
-	console.log("user", user);
-
 	return (
 		<Box
 			as="header"
-			// pos="fixed"
+			pos="fixed"
 			w="100%"
 			h="110px"
 			boxShadow="xl"
@@ -23,7 +21,8 @@ export const Header = async () => {
 			display="flex"
 			alignItems="center"
 			justifyContent="center"
-			mb="5%"
+			top={0}
+			left={0}
 		>
 			<nav style={{ width: "100%" }}>
 				<Flex alignItems="center" justifyContent="space-between" w="100%">

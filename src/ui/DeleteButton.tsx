@@ -3,7 +3,7 @@
 import { IconButton, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { TrashIcon } from "@/assets/icons/TrashIcon";
-import { deleteImage } from "@/app/actions/deleteImage";
+import { deleteImage } from "@/api/actions";
 
 export const DeleteButton = ({ name }: { name: string }) => {
 	const toast = useToast();
