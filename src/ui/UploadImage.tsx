@@ -11,7 +11,7 @@ import {
 	Stack,
 	useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import PreviewImage from "../../public/upload.jpg";
 import { Preview } from "./Preview";
 import { uploadImage } from "@/app/actions/uploadImage";
@@ -22,9 +22,9 @@ export const UploadImage: React.FC = () => {
 	const [previewSrc, setPreviewSrc] = useState(PreviewImage.src);
 	const [isUploading, setIsUploading] = useState(false);
 	const toast = useToast();
+	const inputFileRef = useRef<HTMLInputElement | null>(null);
 
 	const accept = "image/jpeg, image/jpg, image/png";
-	console.log(PreviewImage.src);
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file: File | null = event.target.files?.[0] || null;
@@ -66,7 +66,7 @@ export const UploadImage: React.FC = () => {
 			fileData.append("fileUpload", file);
 
 			await uploadImage(fileData);
-			setPreviewSrc(PreviewImage.src);
+
 			toast({
 				title: "Success!",
 				description: "Image uploaded successfully.",
@@ -74,6 +74,11 @@ export const UploadImage: React.FC = () => {
 				duration: 5000,
 				isClosable: true,
 			});
+			setFile(null);
+			setPreviewSrc(PreviewImage.src);
+			if (inputFileRef.current) {
+				inputFileRef.current.value = "";
+			}
 		} catch (error) {
 			console.error(error);
 			toast({
@@ -155,6 +160,7 @@ export const UploadImage: React.FC = () => {
 									name="file"
 									hidden
 									onChange={(e) => handleFileChange(e)}
+									ref={inputFileRef}
 								/>
 							</FormLabel>
 							<Button
