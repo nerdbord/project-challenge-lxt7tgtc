@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 
-export async function deleteImage(fileName: string) {
+export async function deleteImage(fileName: string | string[]) {
 	const supabase = createClient();
 	const {
 		data: { user },
@@ -13,10 +13,18 @@ export async function deleteImage(fileName: string) {
 		throw new Error("User not found");
 	}
 
-	const { error } = await supabase.storage.from("images").remove([`${user.id}/${fileName}`]);
+	let files: string[] = [];
+
+	if (Array.isArray(fileName)) {
+		files = fileName.map((name) => `${user.id}/${name}`);
+	} else {
+		files = [`${user.id}/${fileName}`];
+	}
+
+	const { error } = await supabase.storage.from("images").remove(files);
 
 	if (error) {
-		console.error("Error deleting file:", error);
+		console.error("Error deleting files:", error);
 		return null;
 	}
 
