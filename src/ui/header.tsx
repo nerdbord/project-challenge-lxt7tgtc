@@ -26,7 +26,7 @@ export const Header = async () => {
 		>
 			<nav style={{ width: "100%" }}>
 				<Flex alignItems="center" justifyContent="space-between" w="100%">
-					<Link href="/" display="flex" alignItems="center">
+					<Link href="/dashboard" display="flex" alignItems="center">
 						<Image borderRadius="full" boxSize="80px" src="/logo.png" alt="Logo" cursor="pointer" />
 					</Link>
 					<List

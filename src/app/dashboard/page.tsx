@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { Center, Text, VStack } from "@chakra-ui/react";
-import { Header } from "@/ui/Header";
+import { Header } from "@/ui/header";
 import { createClient } from "@/utils/supabase/server";
 import { UploadImage } from "@/ui/UploadImage";
 import { ImagesList } from "@/ui/ImagesList";
