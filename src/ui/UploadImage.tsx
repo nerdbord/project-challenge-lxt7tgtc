@@ -63,6 +63,7 @@ export const UploadImage: React.FC = () => {
 		if (!file) return;
 		try {
 			setIsUploading(true);
+
 			const fileData = new FormData();
 			fileData.append("fileUpload", file);
 
@@ -75,6 +76,7 @@ export const UploadImage: React.FC = () => {
 				duration: 5000,
 				isClosable: true,
 			});
+
 			setFile(null);
 			setPreviewSrc(PreviewImage.src);
 			if (inputFileRef.current) {
@@ -84,7 +86,7 @@ export const UploadImage: React.FC = () => {
 			console.error(error);
 			toast({
 				title: "Error",
-				description: String(error),
+				description: "Failed to upload image or the image already exists",
 				status: "error",
 				duration: 5000,
 				isClosable: true,

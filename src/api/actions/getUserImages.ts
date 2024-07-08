@@ -14,9 +14,11 @@ export const getUserImages = async () => {
 		throw new Error("User not found");
 	}
 
-	const { data: userFiles } = await supabase.storage
-		.from("images")
-		.list(`${user.id}/`, { limit: 100, offset: 0 });
+	const { data: userFiles } = await supabase.storage.from("images").list(`${user.id}/`, {
+		limit: 100,
+		offset: 0,
+		sortBy: { column: "created_at", order: "desc" },
+	});
 
 	if (userFiles) {
 		const images: ImageData[] = userFiles.map((file) => ({

@@ -23,6 +23,7 @@ export const Header = async () => {
 			justifyContent="center"
 			top={0}
 			left={0}
+			zIndex={1000}
 		>
 			<nav style={{ width: "100%" }}>
 				<Flex alignItems="center" justifyContent="space-between" w="100%">
