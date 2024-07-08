@@ -10,8 +10,10 @@ import {
 	FormControl,
 	FormErrorMessage,
 	useToast,
+	Divider,
 } from "@chakra-ui/react";
 import { signInWithMagicLink } from "@/api/actions";
+import { signInWithGithub } from "@/api/actions/signInWithGithub";
 
 export const Login: React.FC = () => {
 	const [email, setEmail] = useState("");
@@ -27,6 +29,26 @@ export const Login: React.FC = () => {
 				title: "Magic Link Sent",
 				description: `We've sent a magic link to ${email}. Check your inbox!`,
 				status: "success",
+				duration: 2000,
+				isClosable: true,
+				position: "top",
+			});
+		}
+		setIsSending(false);
+	};
+
+	const handleGithubSignIn = async () => {
+		setIsSending(true);
+		const response = await signInWithGithub();
+		setIsSending(false);
+
+		if (response.success && response.url) {
+			window.location.href = response.url;
+		} else {
+			toast({
+				title: "Error",
+				description: response?.message || "Unknown error occurred",
+				status: "error",
 				duration: 2000,
 				isClosable: true,
 				position: "top",
@@ -87,13 +109,19 @@ export const Login: React.FC = () => {
 				>
 					Get Magic Link
 				</Button>
-				{/* TODO: implement Github signing in */}
-				{/* <Divider my={4} borderColor="black" />
+				<Divider my={4} borderColor="white" />
 				<Flex justify="center">
-					<Button bg="black" color="white" _hover={{ backgroundColor: "#333" }}>
+					<Button
+						onClick={handleGithubSignIn}
+						bg="black"
+						color="white"
+						w="full"
+						_hover={{ backgroundColor: "#333" }}
+						isLoading={isSending}
+					>
 						Sign In With Github
 					</Button>
-				</Flex> */}
+				</Flex>
 			</FormControl>
 		</Flex>
 	);
