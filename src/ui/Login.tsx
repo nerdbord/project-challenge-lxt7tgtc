@@ -34,31 +34,26 @@ export const Login: React.FC = () => {
 				position: "top",
 			});
 		}
+		setIsSending(false);
 	};
 
 	const handleGithubSignIn = async () => {
 		setIsSending(true);
 		const response = await signInWithGithub();
-		if (response.success) {
-			toast({
-				title: "GitHub Sign In",
-				description: "You've been signed in with GitHub.",
-				status: "success",
-				duration: 2000,
-				isClosable: true,
-				position: "top",
-			});
+		setIsSending(false);
+
+		if (response.success && response.url) {
+			window.location.href = response.url;
 		} else {
 			toast({
 				title: "Error",
-				description: response.message,
+				description: response?.message || "Unknown error occurred",
 				status: "error",
 				duration: 2000,
 				isClosable: true,
 				position: "top",
 			});
 		}
-		setIsSending(false);
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

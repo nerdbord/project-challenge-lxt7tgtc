@@ -1,27 +1,22 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 
 export async function signInWithGithub() {
 	const supabase = createClient();
-	try {
-		const { error } = await supabase.auth.signInWithOAuth({
-			provider: "github",
-			options: {
-				redirectTo: "/dashboard",
-			},
-		});
+	const { data, error } = await supabase.auth.signInWithOAuth({
+		provider: "github",
+		options: {
+			redirectTo: "http://localhost:3000/auth/callback",
+		},
+	});
 
-		if (error) {
-			throw new Error(`Error signing in with GitHub: ${error.message}`);
-		}
-
-		revalidatePath("/", "layout");
-		return { success: true, message: "User signed in" };
-	} catch (err) {
-		const error = err as Error;
-		console.error("Error in signInWithGithub:", error);
-		return { success: false, message: error.message };
+	if (error) {
+		console.error("Error signing in with GitHub:", error.message);
+		return { success: false, message: `Error signing in with GitHub: ${error.message}` };
 	}
+	if (data && data.url) {
+		return { success: true, url: data.url };
+	}
+	return { success: false, message: "Unknown error occurred" };
 }
